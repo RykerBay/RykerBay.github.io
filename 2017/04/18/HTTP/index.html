@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          block - undefined
+          HTTP - undefined
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2017/05/12/block/">
+    <link rel="canonical" href="http://yoursite.com/2017/04/18/HTTP/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -86,14 +86,12 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#objc" title="objc">objc</a>
-                            
                         </div>
-                        <h1>block</h1>
+                        <h1>HTTP</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Ryker Bay on
-                            2017-05-12
+                            2017-04-18
                         </span>
                     </div>
                 
@@ -186,99 +184,48 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="Blocks（块）"><a href="#Blocks（块）" class="headerlink" title="Blocks（块）"></a>Blocks（块）</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>带有  <strong>局部变量</strong>  的 <strong>匿名</strong> 函数  (anonymous functions together with automatic (local) variables)</p>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p><code>^return_type (parameters) { ...}</code></p>
-<blockquote>
-<p>return_type和parameters可省略</p>
-</blockquote>
-<h1 id="Block类型变量"><a href="#Block类型变量" class="headerlink" title="Block类型变量"></a>Block类型变量</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><blockquote>
-<p>Block objects are a C-level syntactic and runtime feature. They are similar to standard C functions, but in addition to executable code they may also contain variable bindings to automatic (stack) or managed (heap) memory. A block can therefore maintain a set of state (data) that it can use to impact behavior when executed.<br><em>Blocks Programming Topics,  Apple</em></p>
-</blockquote>
-<h2 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h2><p><code>return_type (^name)(parameters) { ... }</code></p>
-<h2 id="截获变量"><a href="#截获变量" class="headerlink" title="截获变量"></a>截获变量</h2><h3 id="只读变量"><a href="#只读变量" class="headerlink" title="只读变量"></a>只读变量</h3><p>block可以截获在声明block语法的函数作用域内的局部变量<br>实质：将在block语法内使用到的变量，赋值给block结构体内的相同类型变量</p>
-<blockquote>
-<p>在block语法内，可以对截获的对象调用OC方法，但不可以对其赋值</p>
-</blockquote>
-<h3 id="读写变量"><a href="#读写变量" class="headerlink" title="读写变量"></a>读写变量</h3><ul>
-<li>static var</li>
-<li>static global var</li>
-<li>global var</li>
-<li>__ block 存储域类说明符 var</li>
+                <h1 id="HTTP-amp-HTTPS"><a href="#HTTP-amp-HTTPS" class="headerlink" title="HTTP &amp; HTTPS"></a>HTTP &amp; HTTPS</h1><h1 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h1><p><img src="HTTP%20&amp;%20HTTPS/timeline.png" alt=""></p>
+<h1 id="HTTP-1"><a href="#HTTP-1" class="headerlink" title="HTTP/1"></a>HTTP/1</h1><h2 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h2><ul>
+<li>non-persistent Connection : 一次request就建立一次TCP（三次握手）连接</li>
+<li>persistent Connection: 保持第一次的TCP连接，之后传信息都是通过这个连接</li>
 </ul>
-<h2 id="实质"><a href="#实质" class="headerlink" title="实质"></a>实质</h2><p>Objective-C的对象，C的结构体<br><img src="/2017/05/12/block/structOfBlock.png" alt="Struct Of Block" title="Struct Of Block"></p>
-<h3 id="Clang编译后"><a href="#Clang编译后" class="headerlink" title="Clang编译后"></a>Clang编译后</h3><img src="/2017/05/12/block/blockCompiledByClang.jpg" alt="blockCompiledByClang" title="blockCompiledByClang">
-<h2 id="存储域"><a href="#存储域" class="headerlink" title="存储域"></a>存储域</h2><h3 id="Block的种类"><a href="#Block的种类" class="headerlink" title="Block的种类"></a>Block的种类</h3><table>
-<thead>
-<tr>
-<th style="text-align:center">种类</th>
-<th style="text-align:center">所属类</th>
-<th style="text-align:center">存储域</th>
-<th style="text-align:left">生成</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">栈块</td>
-<td style="text-align:center">_NSConcrete<strong>Stack</strong>Block</td>
-<td style="text-align:center">栈区 <strong>Stack</strong></td>
-<td style="text-align:left">函数内</td>
-<td>默认的block类型；                                                             编译器会给每个块分配好栈内存，当离开了相应的作用域之后，编译器有可能把分配给块的内存覆写掉。</td>
-</tr>
-<tr>
-<td style="text-align:center">堆块</td>
-<td style="text-align:center">_NSConcrete<strong>Malloc</strong>Block</td>
-<td style="text-align:center">堆区 <strong>Heap</strong></td>
-<td style="text-align:left"><em>从栈复制到堆</em></td>
-<td>带<strong>引用计数</strong>的块对象</td>
-</tr>
-<tr>
-<td style="text-align:center">全局块</td>
-<td style="text-align:center">_NSConcrete<strong>Global</strong>Block</td>
-<td style="text-align:center">数据区域 <strong>.data区</strong></td>
-<td style="text-align:left">在记述广域变量的地方声明的block；            不截获自动变量的blcok；</td>
-<td>全局块不能使用自动变量 ，所以不会截获自动变量；   <strong>不随运行时变化而变化</strong>；                                                    块所使用的整个内存区域，在编译期已经完全确定了。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="从栈到堆"><a href="#从栈到堆" class="headerlink" title="从栈到堆"></a>从栈到堆</h3><h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><h5 id="自动"><a href="#自动" class="headerlink" title="自动"></a>自动</h5><pre><code>* 在ARC下，编译器会自动调用 `__Block_copy(aBlock)`，将栈复制到堆上，例如：
-        * block作为函数返回值时，编译器会自动生成复制到堆的代码，并将block注册到autorelease pool中
-        * 将block赋值给__\_\_strong__修饰的id / Block类型时
-* 在某些方法内已适当地复制了block，例如：
-        * 来自Cocoa框架且方法名含有usingBlock的方法
-        * GCD的API
-</code></pre><h5 id="手动"><a href="#手动" class="headerlink" title="手动"></a>手动</h5><pre><code>* 用copy方法, ps：
-</code></pre><img src="/2017/05/12/block/copy.png" alt="copy" title="copy">
-<h4 id="对block内使用到的外围变量的影响"><a href="#对block内使用到的外围变量的影响" class="headerlink" title="对block内使用到的外围变量的影响"></a>对block内使用到的外围变量的影响</h4><ul>
-<li>对于__strong修饰的<img src="/2017/05/12/block/strong.jpg" alt="strong" title="strong">
-</li>
+<p>HTTP本身是无状态的连接（non-persistent Connection），可以通过设置头部的connection属性为keep-alive和设立session ID来保持连接，现在默认是是有状态连接了</p>
+<h2 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h2><h3 id="Struct"><a href="#Struct" class="headerlink" title="Struct"></a>Struct</h3><ul>
+<li>HTTP 报文大致可分为<strong>首部</strong>和<strong>主体</strong>两块。两者由最初出现的空行(CR+LF)来划分。</li>
+<li>首部字段组成类型</li>
+<li>通用part <em>（Cache-Control、 Connection、Date、Pragma、Transfer-Encoding、Upgrade、Via）</em></li>
+<li>请求part    <em>(Method、Request-URI 、HTTP-Version、Accept、Accept-Charset、Accept- Encoding、Accept-Language、Authorization、From、Host、If-Modified-Since、If- Match)</em></li>
+<li>响应part <em>（HTTP-Version、Status-Code、Reason-Phrase、Age、Location、Proxy-Authenticate、Public、Retry- After、Server、Vary、Warning、WWW-Authenticate）</em></li>
+<li>实体part <em>（Content-Type、Allow、Content- Base、Content-Encoding、Content-Language、Content-Length、Content-Location、Content-MD5）</em></li>
 </ul>
+<h3 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h3><h4 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h4><p><img src="HTTP%20&amp;%20HTTPS/Snip20170818_14.png" alt=""></p>
+<h4 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h4><p><img src="HTTP%20&amp;%20HTTPS/Snip20170818_16.png" alt=""></p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>为了让server能够辨别出client<br>Server ——set-cookie: xxxx———&gt; Client<br>Client —————cookie: xxxx———&gt; Server</p>
+<h2 id="Proxy-Server-代理服务器（Web-caching）"><a href="#Proxy-Server-代理服务器（Web-caching）" class="headerlink" title="Proxy Server 代理服务器（Web caching）"></a>Proxy Server 代理服务器（Web caching）</h2><h3 id="目的-1"><a href="#目的-1" class="headerlink" title="目的"></a>目的</h3><p>存储子Clients访问时server时返回的response信息，当clients再次访问时，就会先访问Proxy Server里的cache，里面没有的话Proxy Server再去向原始目标服务器进行请求</p>
 <ul>
-<li>对于__weak修饰的<br>当block从栈到堆时，__weak变量也会通过<code>_block_object_assign(...)</code>方法复制到堆，但是当其所指向的__strong变量被释放时就会被设为nil，甚至释放，所以在超出__strong变量作用域的地方调用包含其弱引用版本(不管有没有__block加持)的变量都无效。</li>
+<li>减短Clients得到response的时间</li>
+<li>避免网络拥塞（例如：在大型局域网中（校园网），如果差不多时间有很多子Clients同时方位外界的一个Server时，可以高效的返回response）</li>
 </ul>
-<h1 id="block变量"><a href="#block变量" class="headerlink" title="__block变量"></a>__block变量</h1><h2 id="实质-1"><a href="#实质-1" class="headerlink" title="实质"></a>实质</h2><p>结构体（结构体内部包含其修饰的变量）<br>例如：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//原型</span></div><div class="line">__block <span class="keyword">int</span> val = <span class="number">10</span>;</div><div class="line"></div><div class="line"><span class="comment">//Clang编译后的结构体实质</span></div><div class="line"><span class="keyword">struct</span> __Block_byref_val_0 &#123;</div><div class="line"><span class="keyword">void</span> *__isa;</div><div class="line">__Block_byref_val_0 *__forwarding;</div><div class="line"><span class="keyword">int</span> __flags;</div><div class="line"><span class="keyword">int</span> __size;</div><div class="line"><span class="keyword">int</span> val; <span class="comment">//所修饰的变量</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<h3 id="Clang编译后-1"><a href="#Clang编译后-1" class="headerlink" title="Clang编译后"></a>Clang编译后</h3>
-<h3 id="关于-forwarding"><a href="#关于-forwarding" class="headerlink" title="关于__forwarding"></a>关于__forwarding</h3><p>作用：使stack上和heap上不同的block都能访问<strong>block变量<br>例如：在此时，堆上的block0访问堆上的</strong>block变量，栈上的block1一开始则是访问栈上的<strong>block变量，在通过栈的变量的forwording（指向堆上的</strong>block变量 <code>(val-&gt;__forwarding-&gt;val)</code>），最终和block0访问到的同一个__block变量<br></p>
-<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>栈、堆</p>
-<h3 id="block从栈到堆时对-block变量的影响"><a href="#block从栈到堆时对-block变量的影响" class="headerlink" title="block从栈到堆时对__block变量的影响"></a>block从栈到堆时对__block变量的影响</h3><table>
-<thead>
-<tr>
-<th style="text-align:center">__block变量的配置存储域</th>
-<th style="text-align:center">影响</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">栈</td>
-<td style="text-align:center">栈 —&gt; 堆，且被block持有</td>
-</tr>
-<tr>
-<td style="text-align:center">堆</td>
-<td style="text-align:center">被block持有</td>
-</tr>
-</tbody>
-</table>
-<p>图解：<br><img src="/2017/05/12/block/blockOnStack&Heap.png" alt="lockOnStack&Heap" title="lockOnStack&Heap"></p>
+<h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p>由于response信息有时效性，所以Proxy Server需要时时判断是否有新信息。当Proxy Server想Server请求的时候，通过当前cache版本的时间（放入last-modified属性中）来让Server判断是否有新的内容，有的话就将最新内容返回并设立新的cache版本的时间</p>
+<h4 id="CDN-Content-Distribution-Network"><a href="#CDN-Content-Distribution-Network" class="headerlink" title="CDN (Content Distribution Network)"></a>CDN (Content Distribution Network)</h4><p>通过部署在各地边缘的Server，让Clients<strong>就近</strong>获取内容，降低网络拥堵</p>
+<h1 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h1><h3 id="HTTP-2-vs-HTTP-1"><a href="#HTTP-2-vs-HTTP-1" class="headerlink" title="HTTP/2 vs HTTP/1"></a>HTTP/2 vs HTTP/1</h3><h4 id="新特性"><a href="#新特性" class="headerlink" title="新特性"></a>新特性</h4><ul>
+<li><strong>新的二进制格式（Binary Format）</strong>，HTTP1.x的解析是基于文本。基于文本协议的格式解析存在天然缺陷，文本的表现形式有多样性，要做到健壮性考虑的场景必然很多，二进制则不同，只认0和1的组合。基于这种考虑HTTP2.0的协议解析决定采用二进制格式，实现方便且健壮。</li>
+<li><p><strong>多路复用（MultiPlexing）</strong>，即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的 id将request再归属到各自不同的服务端请求里面。多路复用原理图：<br><img src="HTTP%20&amp;%20HTTPS/duolufuyong.png" alt=""><em>**</em></p>
+</li>
+<li><p><strong>Header压缩</strong>，如上文中所言，对前面提到过HTTP1.x的header带有大量信息，而且每次都要重复发送，HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields表，既避免了重复header的传输，又减小了需要传输的大小。</p>
+</li>
+<li><strong>服务端推送（server push）</strong>，同SPDY一样，HTTP2.0也具有server push功能。目前，有大多数网站已经启用HTTP2.0，例如YouTuBe，淘宝网等网站，利用chrome控制台可以查看是否启用H2.</li>
+</ul>
+<h4 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h4><p><img src="HTTP%20&amp;%20HTTPS/diff332.png" alt=""></p>
+<h3 id="HTTP-2-vs-SPDY"><a href="#HTTP-2-vs-SPDY" class="headerlink" title="HTTP/2 vs SPDY"></a>HTTP/2 vs SPDY</h3><p>顾名思义有了HTTP1.x，那么HTTP2.0也就顺理成章的出现了。HTTP2.0可以说是SPDY的升级版（其实原本也是基于SPDY设计的），但是，HTTP2.0 跟 SPDY 仍有不同的地方，主要是以下两点：<br>HTTP2.0 支持明文 HTTP 传输，而 SPDY 强制使用 HTTPS<br>HTTP2.0 消息头的压缩算法采用 HPACK，而非 SPDY 采用的 DEFLATE</p>
+<hr>
+<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><h2 id="HTTP-Security-HTTP-on-TLS"><a href="#HTTP-Security-HTTP-on-TLS" class="headerlink" title="HTTP Security/ HTTP on TLS"></a>HTTP Security/ HTTP on TLS</h2><p>HTTPS是承载在TLS/SSL之上的HTTP，相较于HTTP明文数据传输方面所暴露出的缺点，HTTPS具有防止信息被窃听、篡改、劫持，提供信息加密，完整性校验及身份验证等优势。<br><img src="HTTP%20&amp;%20HTTPS/HTTPQUBIE2.png" alt=""></p>
+<h3 id="HTTPS-vs-HTTP"><a href="#HTTPS-vs-HTTP" class="headerlink" title="HTTPS vs HTTP"></a>HTTPS vs HTTP</h3><ul>
+<li>HTTPS协议需要到CA申请证书，一般免费证书很少，需要交费。</li>
+<li>HTTP协议运行在TCP之上，所有传输的内容都是明文，HTTPS运行在SSL/TLS之上，SSL/TLS运行在TCP之上，所有传输的内容都经过加密的。<strong>建立连接顺序：TCP -&gt; TLS -&gt; HTTP</strong></li>
+<li>HTTP和HTTPS使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTPS可以有效的防止运营商劫持，解决了防劫持的一个大问题。<br>*<h1 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h1>[[TLS/SSL]]<br>[[TCP]]<br><a href="http://blog.csdn.net/ylbf_dev/article/details/50266447" target="_blank" rel="external">HTTP头部详解 - YLBF_DEV的专栏        - CSDN博客</a><br><a href="http://www.blogjava.net/yongboy/archive/2015/03/17/423531.html" target="_blank" rel="external">HTTP/2笔记之开篇 - 聂永的博客 - BlogJava</a><br>#iOS开发</li>
+</ul>
 
                 
 
@@ -287,12 +234,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2017/08/13/Take-“YOU”-out-of-the-users/" data-toggle="tooltip" data-placement="top" title="Take “YOU” out of the users">&larr; Previous Post</a>
+                            <a href="/2017/05/12/block/" data-toggle="tooltip" data-placement="top" title="block">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2017/04/18/HTTP/" data-toggle="tooltip" data-placement="top" title="HTTP">Next Post &rarr;</a>
+                            <a href="/2014/12/03/That-s-what-I-love-about-music/" data-toggle="tooltip" data-placement="top" title="That's what I love about music">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
