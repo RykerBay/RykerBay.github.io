@@ -184,11 +184,11 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="Class的加载-（load-amp-initialize）"><a href="#Class的加载-（load-amp-initialize）" class="headerlink" title="Class的加载 （load &amp; initialize）"></a>Class的加载 （load &amp; initialize）</h1><p>有runtime linker处理</p>
+                <h1 id="Class的加载-（load-amp-initialize）"><a href="#Class的加载-（load-amp-initialize）" class="headerlink" title="Class的加载 （load &amp; initialize）"></a>Class的加载 （load &amp; initialize）</h1><p>由runtime linker加载Class</p>
 <h1 id="load方法"><a href="#load方法" class="headerlink" title="load方法"></a>load方法</h1><h2 id="执行时间"><a href="#执行时间" class="headerlink" title="执行时间"></a>执行时间</h2><p><strong><em>有且仅执行一次</em></strong>，在写有load方法的class或category的库被调用时</p>
 <ul>
-<li>[iOS, mac OS] 对于在app里面的或者在framework框架里面的load函数，执行在main()函数之前 (app启动的时候)</li>
-<li>[Mac OS] 对于在loadable bundle里面的load方法, 由于可以动态加载库，所以是在库被加载的时候/运行在bundle被加载时（对于Mac OS）</li>
+<li>[iOS, macOS] 对于在app里面的或者在framework框架里面的load函数，执行在main()函数之前 (app启动的时候)</li>
+<li>[macOS] 对于在loadable bundle里面的load方法, 由于可以动态加载库，所以是在库被加载的时候/运行在bundle被加载时</li>
 </ul>
 <h2 id="注意-Tricky"><a href="#注意-Tricky" class="headerlink" title="注意 (Tricky)"></a>注意 (Tricky)</h2><h3 id="关于load方法被系统加载的注意点"><a href="#关于load方法被系统加载的注意点" class="headerlink" title="关于load方法被系统加载的注意点"></a>关于load方法被系统加载的注意点</h3><ul>
 <li>+load的<strong>执行顺序</strong>：先类，后category，而category的+load执行顺序是根据编译顺序决定的（不能明确可知）</li>
