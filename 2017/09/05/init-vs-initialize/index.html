@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Take “YOU” out of the users - undefined
+          init_vs_initialize - undefined
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2017/08/13/Take-“YOU”-out-of-the-users/">
+    <link rel="canonical" href="http://yoursite.com/2017/09/05/init-vs-initialize/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -86,14 +86,12 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#ui/design" title="ui/design">ui/design</a>
-                            
                         </div>
-                        <h1>Take “YOU” out of the users</h1>
+                        <h1>init_vs_initialize</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Ryker Bay on
-                            2017-08-13
+                            2017-09-05
                         </span>
                     </div>
                 
@@ -186,33 +184,48 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2 id="Take-“YOU”-out-of-the-user-（换位思考）"><a href="#Take-“YOU”-out-of-the-user-（换位思考）" class="headerlink" title="Take “YOU” out of the user  （换位思考）"></a>Take “YOU” out of the user  （换位思考）</h2><ul>
-<li>Find your user and their goals</li>
-<li>The user is <em>???</em> , who wants to <em>???</em>.</li>
-<li>Like ‘Em</li>
-<li>“Thinking of your “mom”（who just like your user)” in order to make your product easier to understand.</li>
-<li>Talk to real people</li>
-<li>Talking to lots of people, potential customers. Not mean asking them “how about your product”, instead asking what they would do to achieve your product’s goal.(像 预约餐馆的app，要先找餐馆。看使用者原来是怎么找的）</li>
-<li>Put in down on paper<br>用下面的方法做笔记</li>
-<li>personas (角色模型） ———————— Who</li>
-<li>scenarios (情景）    ———————— What they want<br>*user flows     ———————— How to get it (ps.类似work flows)</li>
+                <h1 id="Class的加载-（load-amp-initialize）"><a href="#Class的加载-（load-amp-initialize）" class="headerlink" title="Class的加载 （load &amp; initialize）"></a>Class的加载 （load &amp; initialize）</h1><p>有runtime linker处理</p>
+<h1 id="load方法"><a href="#load方法" class="headerlink" title="load方法"></a>load方法</h1><h2 id="执行时间"><a href="#执行时间" class="headerlink" title="执行时间"></a>执行时间</h2><p><strong><em>有且仅执行一次</em></strong>，在写有load方法的class或category的库被调用时</p>
+<ul>
+<li>[iOS, mac OS] 对于在app里面的或者在framework框架里面的load函数，执行在main()函数之前 (app启动的时候)</li>
+<li>[Mac OS] 对于在loadable bundle里面的load方法, 由于可以动态加载库，所以是在库被加载的时候/运行在bundle被加载时（对于Mac OS）</li>
 </ul>
-<h2 id="Wireframes-and-prototypes-改善设计"><a href="#Wireframes-and-prototypes-改善设计" class="headerlink" title="Wireframes and prototypes (改善设计)"></a>Wireframes and prototypes (改善设计)</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><img src="/2017/08/13/Take-“YOU”-out-of-the-users/Process.png" alt="Process" title="Process">
-<h3 id="设计模型"><a href="#设计模型" class="headerlink" title="设计模型"></a>设计模型</h3><ul>
-<li>low-fidelity 线框 + 少描述</li>
-<li>high-fidelity 线框 + 详细描述</li>
-<li>annotated 线框 + 详细描述（点击事件，操作结果等)</li>
-<li>prototype 可操作（仿真实的产品）</li>
+<h2 id="注意-Tricky"><a href="#注意-Tricky" class="headerlink" title="注意 (Tricky)"></a>注意 (Tricky)</h2><h3 id="关于load方法被系统加载的注意点"><a href="#关于load方法被系统加载的注意点" class="headerlink" title="关于load方法被系统加载的注意点"></a>关于load方法被系统加载的注意点</h3><ul>
+<li>+load的<strong>执行顺序</strong>：先类，后category，而category的+load执行顺序是根据编译顺序决定的（不能明确可知）</li>
+<li>load方法不遵从继承，该类没有实现load，就不会调用load方法</li>
+<li>如果在分类里声明了，但不实现，method_list里不会有,当然也不会调用分类方法。但若是实现了，即使不在.h文件声明，也会调用分类的方法；</li>
+<li>如果分类里是- (void)testCategory，而Class里是- (int)testCategory;<strong>返回值不同，也会覆盖</strong>，因为虽然返回值不同，但OC里，这两者依然是一个方法。</li>
 </ul>
-<img src="/2017/08/13/Take-“YOU”-out-of-the-users/WireframesAndPrototypes.png" alt="Wireframes and prototypes" title="Wireframes and prototypes">
-<h3 id="Tips-for-working-faster"><a href="#Tips-for-working-faster" class="headerlink" title="Tips for working faster"></a>Tips for working faster</h3><ul>
-<li>使用素材库（网络上的），积累组建自己的素材库</li>
-<li>Make important content real(不需要把所有的地方都仿真）</li>
-<li>Don’t only make homepage （各个level都要做）</li>
-<li>Learn to make it wrong，尽快碰到错误的地方，尽快改（设计本来就是一个流程不断循环的过程)</li>
+<h3 id="关于使用load方法（load方法内部）的注意点"><a href="#关于使用load方法（load方法内部）的注意点" class="headerlink" title="关于使用load方法（load方法内部）的注意点"></a>关于使用load方法（load方法内部）的注意点</h3><p>由于在执行load方法的时候，runtime系统正处于fragile state（脆弱状态），所以要注意一些地方，避免crash</p>
+<ul>
+<li>load方法中调用其他方法的注意点<ul>
+<li>在load被调用的时候，C++ static initializers in your app (or framework or plugin)还没被载入</li>
+<li>导入的framework（例如：NSFoundation）在load方法之间被载入，所以可以在load方法中可以使用</li>
+<li>父类先于子类被载入，所以可以在子类的load方法中使用父类</li>
+<li>class里的load方法可以访问category声明的其他方法，因为将category附加到类的工作会先于class中+load方法的执行）</li>
+<li>在同一个库内不同class的load方法先后载入顺序不定，所以内部load方法内不能相互使用</li>
 </ul>
-<p>参考资料：<br><a href="http://jessicaivins.net/ux-resources-for-beginners/" target="_blank" rel="external">UX Resources for Beginners</a><br><a href="http://gymnasium.aquent.com/courses/GYM/103/0/about" target="_blank" rel="external">UX Fundamentals </a></p>
-<p>#ui/design</p>
+</li>
+<li>在load方法里面不要进行一些复杂耗时的操作，更不要加锁操作、否则会拖慢加载，造成界面不会响应。一般都是用来debug（例如检测category有没有被载入）</li>
+</ul>
+<h1 id="initialize"><a href="#initialize" class="headerlink" title="initialize"></a>initialize</h1><p>执行initialize方法的时候，runtime系统处于正常状态，已加载完整，可以任意class任意method。并且runtime系统确保调用initialize方法时处在线程安全的状态（当调用某个initialize方法时，会阻塞其他threads，先让该方法内的操作完成, 如果其他thread想要call这个class的方法，则会被阻塞直到initialize完成）</p>
+<h2 id="执行时间-1"><a href="#执行时间-1" class="headerlink" title="执行时间"></a>执行时间</h2><p>懒加载（当runtime调用该class时，绝对不能手动代码调用），有且仅调用一次<br>如果本class没有执行过initialize方法时，则会执行</p>
+<h2 id="注意-Tricky-1"><a href="#注意-Tricky-1" class="headerlink" title="注意 (Tricky)"></a>注意 (Tricky)</h2><ul>
+<li>类似load方法，initialize方法里面不要进行一些复杂耗时的操作，更不要加锁操作、否则会拖慢加载，造成界面不会响应。</li>
+<li>由于在线程安全的状态调用initialize<ul>
+<li>如果此thread刚好时绘制UI的主线程，则UI卡住</li>
+<li>Interdependency Cycle（依赖环）：如果initialize方法里面的操作很复杂，例如A的initialize调用到其他类（B,C..），而且其他类还没initialize或者还调用回来A的method（而此时A的initialize都还没弄完呢）就要等很久了或者gg</li>
+</ul>
+</li>
+<li>可以在initialize中初始化一些不可以在compile time定义全局变量（例如：objc 对象，ps：NSString和基础类型可以在编译器定义）<br><code>static NSMutableArray *object; //然后在initialize中init</code></li>
+</ul>
+<h1 id="load-V-S-initialize"><a href="#load-V-S-initialize" class="headerlink" title="load V.S. initialize"></a>load V.S. initialize</h1><ul>
+<li>initialize是懒加载，load是app启动时全部一次性加载完</li>
+<li>由于执行<strong>initialize方法</strong>的时候，runtime系统处于正常状态，已加载完整，所以可以任意class任意method。并且runtime系统确保调用initialize方法时处在线程安全的状态（当调用某个initialize方法时，会阻塞其他threads，先让该方法内的操作完成）；<br>由于在执行<strong>load方法</strong>的时候，runtime系统正处于fragile state（脆弱状态），所以要注意一些地方，避免crash</li>
+<li><strong>initialize遵守继承</strong>，如果子类没有实现某些method则会向上父类查找，并执行<br><strong>load不遵守继承</strong>，如果该类没有实现load，就不会调用load方法</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.amazon.cn/%E5%9B%BE%E4%B9%A6/dp/B01DPUXV1G/ref=sr_1_1?ie=UTF8&amp;qid=1504621147&amp;sr=8-1&amp;keywords=objective-c+52" target="_blank" rel="external">Effective Objective-C 2.0:编写高质量iOS与OS X代码的52个有效方法(英文版):亚马逊:图书</a><br><a href="https://www.mikeash.com/pyblog/friday-qa-2009-05-22-objective-c-class-loading-and-initialization.html" target="_blank" rel="external">mikeash.com: Friday Q&amp;A 2009-05-22: Objective-C Class Loading and Initialization</a><br><a href="https://developer.apple.com/documentation/objectivec/nsobject/1418639-initialize" target="_blank" rel="external">initialize() - NSObject | Apple Developer Documentation</a><br><a href="https://tech.meituan.com/DiveIntoCategory.html" target="_blank" rel="external">深入理解Objective-C：Category -</a><br><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/LoadingCode/Concepts/AboutLoadableBundles.html#//apple_ref/doc/uid/20001268-BCIDBAEJ" target="_blank" rel="external">About Loadable Bundles</a><br><a href="https://developer.apple.com/library/content/documentation/CoreFoundation/Conceptual/CFBundles/AboutBundles/AboutBundles.html" target="_blank" rel="external">About Bundles</a><br><a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/DynamicLibraries/100-Articles/DynamicLibraryUsageGuidelines.html" target="_blank" rel="external">Dynamic Library Usage Guidelines</a></p>
+<p>#objc</p>
 
                 
 
@@ -220,13 +233,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2017/09/05/init-vs-initialize/" data-toggle="tooltip" data-placement="top" title="init_vs_initialize">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2017/05/12/block/" data-toggle="tooltip" data-placement="top" title="block">Next Post &rarr;</a>
+                            <a href="/2017/08/13/Take-“YOU”-out-of-the-users/" data-toggle="tooltip" data-placement="top" title="Take “YOU” out of the users">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
